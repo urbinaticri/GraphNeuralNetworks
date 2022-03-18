@@ -8,5 +8,5 @@ I slightly modified it using the [Large Margin Softmax Loss](https://arxiv.org/a
 
 First results are promising:
 
-![](C:\Users\c.urbinati\Documents\MEGAsync\Internship\GraphNeuralNetworks\imgs\Graph_Node_Classification_embeddings.gif)
+![](C:\Users\c.urbinati\Documents\MEGAsync\Internship\GraphNeuralNetworks\imgs\Graph_Node_Classification_embeddings_sphere.png)
 
