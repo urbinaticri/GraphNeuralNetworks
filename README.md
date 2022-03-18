@@ -8,7 +8,7 @@ I slightly modified it using the [Large Margin Softmax Loss](https://arxiv.org/a
 
 First results are promising:
 
-![](.\imgs\Graph_Node_Classification_embeddings.gif)
+![](./imgs/Graph_Node_Classification_embeddings.gif)
 
-![](.\imgs\Graph_Node_Classification_embeddings_sphere.png)
+![](./imgs/Graph_Node_Classification_embeddings_sphere.png)
 
