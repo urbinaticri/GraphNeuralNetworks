@@ -58,4 +58,6 @@ The [ogbl-ppa dataset](https://ogb.stanford.edu/docs/linkprop/#ogbl-ppa) is an u
 
  Since this dataset contain a lot more edges we menage to convert it to a SparseTensor to reduce memory overhead.
 
-At the end what we obtain is 
+At the end of the training best model achieves $\approx$ **30%** of $Hits@100$ on test set.
+
+![](imgs/ogbl-ppa.png)
