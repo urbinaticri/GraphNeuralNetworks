@@ -28,7 +28,7 @@ where the $ϵ=10^{-15}$ is added to each term for numerical stability.
 
 The evaluation is performed through the metric $Hits@K =$ Fraction of correct links in the top $K$ links (with respect to their scores).
 
-At the end of the training best model achieves $\approx$ **50%** of $Hits@20$ on test set.
+At the end of the training best model achieves $\approx$ **40%** of $Hits@20$ on test set.
 
 ![](imgs/ogbl-ddi.png)
 
