@@ -18,17 +18,21 @@ The model that computes the node embeddings use `SAGEConv` convolution from the 
 - if apply or not skip connection between convolution layers
 - if apply a post processing MLP
 
-The previous model is trained alongside a LinkPredictor that takes the embedding vector of 2 nodes $(h_i, h_j \in \mathbb{R}^d )$ and computes the probability score of whether there exists a link between the 2 nodes with the rule: $P = MLP(h_i \odot h_j)$ where  $x \odot y$ is the element-wise product (Hadamard product).
+The previous model is trained alongside a LinkPredictor that takes the embedding vector of 2 nodes $`(h_i, h_j \in \mathbb{R}^d )`$ and computes the probability score of whether there exists a link between the 2 nodes with the rule: $`P = MLP(h_i \odot h_j)`$ where  $`x \odot y`$ is the element-wise product (Hadamard product).
 
 The model is trained by jointly maximizing the probability prediction of correct edges and minimizing the probability prediction of the incorrect edges using negative sampling. The loss is defined as:
-$$
+
+```math
 Loss = -\log(prob\_pos\_edges + ϵ) - \log(1-prob\_neg\_edges + ϵ)
-$$
-where the $ϵ=10^{-15}$ is added to each term for numerical stability.
+```
 
-The evaluation is performed through the metric $Hits@K =$ Fraction of correct links in the top $K$ links (with respect to their scores).
 
-At the end of the training best model achieves $\approx$ **40%** of $Hits@20$ on test set.
+
+where the $`ϵ=10^{-15}`$ is added to each term for numerical stability.
+
+The evaluation is performed through the metric $`Hits@K =`$ Fraction of correct links in the top $`K`$ links (with respect to their scores).
+
+At the end of the training best model achieves $`\approx 40\%`$ of $`Hits@20`$ on test set.
 
 ![](imgs/ogbl-ddi.png)
 
@@ -44,7 +48,7 @@ The model that computes the node embeddings use `SAGEConv` convolution from the 
 
  Since this dataset contain a lot more edges we menage to convert it to a SparseTensor to reduce memory overhead. We also try to use minibatches samples using NeighborSampler dataloader.
 
-At the end of the training best model achieves $\approx$ **50%** of $Hits@50$ on test set.
+At the end of the training best model achieves $`\approx 50\%`$ of $`Hits@50`$ on test set.
 
 ![](imgs/ogbl-collab.png)
 
@@ -58,6 +62,6 @@ The [ogbl-ppa dataset](https://ogb.stanford.edu/docs/linkprop/#ogbl-ppa) is an u
 
  Since this dataset contain a lot more edges we menage to convert it to a SparseTensor to reduce memory overhead.
 
-At the end of the training best model achieves $\approx$ **30%** of $Hits@100$ on test set.
+At the end of the training best model achieves $`\approx 30\%`$ of $`Hits@100`$ on test set.
 
 ![](imgs/ogbl-ppa.png)
