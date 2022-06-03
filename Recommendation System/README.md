@@ -39,7 +39,7 @@ with:
 
 The evaluation metrics considered are $recall@K$ and $precision@K$.
 
-The training has been performed on ${1.000}$ epochs testing different model configurations obtaining top scores of $\approx 35\%$ of $recall@20$ and $\approx 12\%$ of $precision@20$.
+The training has been performed on $100$ epochs testing different model configurations obtaining top scores of $\approx 35\%$ of $recall@20$ and $\approx 13\%$ of $precision@20$.
 
 ![](./imgs/loss.png)
 
@@ -47,7 +47,9 @@ The training has been performed on ${1.000}$ epochs testing different model conf
 
 ![](./imgs/precision@20.png)
 
+The performances have been compared to a `LightFM` model that actually represent the SOTA of ML models for recommendation systems.
+The model has been initialized with same parameter and same loss of the LightGCN model, and trained for $100$ epochs on the same data-splits. That model was able to achieve $\approx 16\%$ at $recall@20$ and $\approx 5\%$ at $precision@20$.
+
 TO-DO:
 
-- test on larger datasets
-- compare ML models
+- optimize sampling functions and test on larger datasets
