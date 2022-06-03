@@ -41,7 +41,7 @@ The evaluation metrics considered are $recall@K$ and $precision@K$.
 
 The training has been performed on ${1.000}$ epochs testing different model configurations obtaining top scores of $\approx 35\%$ of $recall@20$ and $\approx 12\%$ of $precision@20$.
 
-![](/imgs/loss.png)
+![](./imgs/loss.png)
 
 ![](./imgs/recall@20.png)
 
