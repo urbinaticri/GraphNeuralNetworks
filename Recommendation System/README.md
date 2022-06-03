@@ -18,19 +18,19 @@ LightGCN has bees used as base convolution for the good results it allows to ach
 Moreover, LightGCN allows to train on big graphs for many iterations in a short time since the only learnable parameters are the embedding for users and items (movies)
 
 The model is parametrized, as the other ones of this projects, allowing to run different type of configuration such as using skip-connections or post-processing MLP. The embeddings for users and items are obtained combining the embeddings obtained at each layer of propagation:
-$$
-e_u = \sum_{k = 0}^K \alpha_k e_u^{(k)} \quad e_i = \sum_{k = 0}^K \alpha_k e_i^{(k)}
-$$
+
+$$e_u = \sum_{k = 0}^K \alpha_k e_u^{(k)} \quad e_i = \sum_{k = 0}^K \alpha_k e_i^{(k)}$$
+
 $\alpha_k$: hyper-parameter which weights the contribution of the $k$-th layer embedding to the final embedding set to $\frac{1}{K}$ which states for the mean.
 
 The model prediction is obtained by taking the inner product of the final user and item embeddings.
-$$
-\hat{y}_{ui} = e_ue_i^\top
-$$
+
+$$\hat{y}_{ui} = e_ue_i^\top$$
+
 The training loss is the Bayesian Personalized Ranking (BPR) loss:
-$$
-L_{BPR} = -\sum_{u = 1}^M \sum_{i \in \mathcal{N}_u} \sum_{j \notin \mathcal{N}_u} \ln{\sigma(\hat{y}_{ui} - \hat{y}_{uj})} + \lambda ||E^{(0)}||^2
-$$
+
+$$L_{BPR} = -\sum_{u = 1}^M \sum_{i \in \mathcal{N}_u} \sum_{j \notin \mathcal{N}_u} \ln{\sigma(\hat{y}_{ui} - \hat{y}_{uj})} + \lambda ||E^{(0)}||^2$$
+
 with:
 
 - $\hat{y}_{ui}$: predicted score of a positive sample
