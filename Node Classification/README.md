@@ -21,8 +21,6 @@ Implementation of a [Graph Convolution Layer](https://pytorch-geometric.readthed
 Implementation of convolution layer based on [GraphSAGE](https://arxiv.org/abs/1706.02216). The model is pretty straightforward and follows the structure of the one in the previous experiment: one convolution followed by a ReLU activation and dropout layer and then another convolution followed by a log_softmax activation.
 Also this model achieves **86%** accuracy on test set but seems to better separate embeddings.
 
-TO-DO: used only mean aggregation, try also LSTM and Pool (max)
-
 *Experiment #3- GAT:*
 
 Use of the [Graph Attention (v2)](https://pytorch-geometric.readthedocs.io/en/latest/modules/nn.html#torch_geometric.nn.conv.GATv2Conv) from the pytorch geometric library and inspired by the following two papers:
@@ -40,7 +38,7 @@ Below, an extract of the progress of how the model learn to embed classes (downs
 
 <img src="./imgs/embeddings.gif" style="height:400px; width:400px" />
 
-## Parametrized GAT Model and node classification on PubMed dataset
+## Parametrized GAT Model and node classification on Cora/PubMed dataset
 
 Implementation of a model that uses as convolution [Graph Attention (v2)](https://pytorch-geometric.readthedocs.io/en/latest/modules/nn.html#torch_geometric.nn.conv.GATv2Conv) from the pytorch geometric library and can be tuned using different configuration of parameters:
 
@@ -57,9 +55,8 @@ Below two examples of the resulting network structure: on the left a 3-layer GNN
 
 <img src="imgs/ParametrizedGATModel.png" style="zoom:75%;" />
 
-In order to make the training feasible also for large dataset [NeighborLoader](https://pytorch-geometric.readthedocs.io/en/latest/modules/loader.html#torch_geometric.loader.NeighborLoader) has been used to craft batches.
-
-The model has been trained on [PubMed Dataset](https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets.Planetoid) (full)
+The model has been trained on [Cora Dataset](https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets.Planetoid) (full) and [PubMed Dataset](https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html#torch_geometric.datasets.Planetoid) (full).
+While for Cora we obtained better performance in using GNNs wrt common ML models, in PubMed the outcome is a bit disappointing:
 
 | Name   | #nodes | #edges | #features | **#classes** |
 | ------ | ------ | ------ | --------- | ------------ |
@@ -81,26 +78,25 @@ Also performance over some ML models trained using cross-validation and grid-sea
 
 For this dataset also ML models achieve very good performances, especially random forest that overtake GNN (with topology features). We further investigate on the reasons why this happens.
 
-Looking at the predominante features extracted from the Random Forest classifier it seems  like there are no predominant features.
+Looking at the predominante features extracted from the Random Forest classifier it seems  like there are no predominant ones.
 
-Performing PCA on train dataset instead we discover that topology features encapsulate most of the class information. By the way It seems like the topology only (without other features): performing the label propagation algorithm in fact, considering only topology gives 72% of accuracy.
+Performing PCA on train dataset instead we discover that added topology features encapsulate most of the class information. By the way , performing the label propagation algorithm which consider only topology, gives 72% of accuracy;  so for this dataset ML models are capable of extract more relevant information from node features wrt GNN.
 
-## Node classification on large datasets with GraphSAINTSampler, ClusterLoader or NeighborLoader
-
-Slightly different version of the Parametrized GAT model descripted in the section above that includes also a method `inference` that computes the embedding representation layer by layer for each batch instead of computing it along the entire convolutions stack. Also batch loaders such as GraphSAINTSampler, ClusterLoader and NeighborLoader are used in order to train on batches instead of work on the entire graph.
-
-In this way it can be used also on larger graphs such as:
-
-| Name           | #nodes    | #edges      | #features | **#classes** |
-| -------------- | --------- | ----------- | --------- | ------------ |
-| Flickr         | 89,250    | 899,756     | 500       | 7            |
-| Reddit2        | 232,965   | 23,213,838  | 602       | 41           |
-| AmazonProducts | 1,569,960 | 264,339,468 | 200       | 107          |
+EDIT: Tested also here GraphSAINTSampler, ClusterLoader and NeighborLoader but with approximately same results.
 
 ## Node classification on ogbn-products using NeighborSampler
 
-Tested the previous described model on the ogbn Amazon products dataset using NeighorSampler in order to craft batches.
+Slightly different version of the Parametrized GAT model descripted in the section above that includes also a method `inference` that computes the embedding representation layer by layer for each batch instead of computing it along the entire convolutions stack.
 
 | Name          | #nodes    | #edges     | #features | **#classes** |
 | ------------- | --------- | ---------- | --------- | ------------ |
 | ogbn-products | 2,449,029 | 61,859,140 | 100       | 47           |
+
+## Node classification on large datasets with GraphSAINTSampler, ClusterLoader or NeighborLoader
+
+ Also batch loaders such as GraphSAINTSampler, ClusterLoader and NeighborLoader are used in order to train on batches on larger graphs such as:
+
+| Name           | #nodes    | #edges      | #features | **#classes** |
+| -------------- | --------- | ----------- | --------- | ------------ |
+| Reddit2        | 232,965   | 23,213,838  | 602       | 41           |
+| AmazonProducts | 1,569,960 | 264,339,468 | 200       | 107          |
