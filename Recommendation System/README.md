@@ -6,18 +6,18 @@
 
 ## Movie Recommendation with LightGCN
 
-Test recommendation of movies to users using two datasets by MovieLens:
+Recommendation of movies to users using two datasets by MovieLens:
 
-| Dataset         | Ratings | Movies | Users |
-| --------------- | ------- | ------ | ----- |
-| ml-latest-small | 100836  | 9742   | 610   |
-| ml-100k         | 100000  | 1682   | 943   |
+| Dataset | Ratings   | Movies | Users |
+| ------- | --------- | ------ | ----- |
+| ml-100k | 100.000   | 1682   | 943   |
+| ml-1M   | 1.000.000 | 3596   | 6039  |
 
-LightGCN has bees used as base convolution for the good results it allows to achieve compared to other models such as Neural Graph Collaborative Filtering (as showed in [this article]([Recommender Systems with GNNs in PyG | by Derrick Li | Stanford CS224W GraphML Tutorials | Medium](https://medium.com/stanford-cs224w/recommender-systems-with-gnns-in-pyg-d8301178e377)) by Standord CS224W course project) .
+We compare the performance of graph-based method such as LightGCN and Neural Graph Collaborative Filtering against LightFM  as the current SOTA used in many companies.
 
-Moreover, LightGCN allows to train on big graphs for many iterations in a short time since the only learnable parameters are the embedding for users and items (movies)
+We demonstrate the advantage of using GNNs that, via message passing, are capable to better encode user-item interaction in the embeddings.
 
-The model is parametrized, as the other ones of this projects, allowing to run different type of configuration such as using skip-connections or post-processing MLP. The embeddings for users and items are obtained combining the embeddings obtained at each layer of propagation:
+The model is parametrized, allowing to run different type of configuration such as using skip-connections or post-processing MLP. The embeddings for users and items are obtained combining the embeddings obtained at each layer of propagation:
 
 $$e_u = \sum_{k = 0}^K \alpha_k e_u^{(k)} \quad e_i = \sum_{k = 0}^K \alpha_k e_i^{(k)}$$
 
@@ -39,17 +39,19 @@ with:
 
 The evaluation metrics considered are $recall@K$ and $precision@K$.
 
-The training has been performed on $100$ epochs testing different model configurations obtaining top scores of $\approx 35\%$ of $recall@20$ and $\approx 13\%$ of $precision@20$.
+**LightGCN** on MovieLens1M
+
+The training has been performed on $50$ epochs testing different model configurations obtaining top scores of $\approx 25\%$ of $recall@20$ and $\approx 9.5\%$ of $precision@20$.
 
 ![](./imgs/loss.png)
 
-![](./imgs/recall@20.png)
+![](./imgs/precision&recall@20.png)
 
-![](./imgs/precision@20.png)
+**NGCF** on MovieLens1M
 
-The performances have been compared to a `LightFM` model that actually represent the SOTA of ML models for recommendation systems.
-The model has been initialized with same parameter and same loss of the LightGCN model, and trained for $100$ epochs on the same data-splits. That model was able to achieve $\approx 16\%$ at $recall@20$ and $\approx 5\%$ at $precision@20$.
+The training has been performed on $50$ epochs testing different model configurations obtaining top scores of $\approx 24\%$ of $recall@20$ and $\approx 9\%$ of $precision@20$.
 
-TO-DO:
+**LightFM** on MovieLens1M
 
-- optimize sampling functions and test on larger datasets
+The training has been performed on $500$ epochs both with or without user/item features and using BPR and warp losses obtaining best scores of of $\approx 20\%$ of $recall@20$ and $\approx 8.5\%$ of $precision@20$. using features and warp loss.
+
